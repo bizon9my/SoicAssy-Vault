@@ -128,7 +128,6 @@
                         type: 'error', 
                         message: 'Cloud Gagal. Guna Data Tempatan.' 
                     });
-                    // Jangan reset state supaya data cache tetap boleh digunakan
                 } finally { 
                     setIsLoading(false); 
                 }
@@ -242,13 +241,10 @@
                             <div className="absolute inset-0 bg-emerald-500/20 rounded-full blur-[80px] animate-pulse"></div>
                             <img src="https://i.postimg.cc/prf5nQYN/Chat-GPT-Image-Apr-23-2026-09-52-51-AM-(1).png" className="h-28 rounded-[2rem] shadow-2xl relative z-10 border border-white" />
                         </div>
-                        <div className="flex items-center gap-3 bg-white px-6 py-3 rounded-full shadow-sm border border-slate-100 mb-4">
+                        <div className="flex items-center gap-3 bg-white px-6 py-3 rounded-full shadow-sm border border-slate-100">
                             <Icon name="loader-2" className="w-5 h-5 text-emerald-600 animate-spin" />
                             <span className="text-sm font-bold text-slate-700 uppercase tracking-widest">Membuka Vault...</span>
                         </div>
-                        <p className="text-xs text-slate-400 font-medium max-w-[280px] leading-relaxed">
-                            Menghubungkan ke Google Sheets. Pastikan skrip anda ditetapkan kepada <b>"Who has access: Anyone"</b>.
-                        </p>
                     </div>
                 );
             }
@@ -304,7 +300,7 @@
 
                     <main className="relative z-10 max-w-5xl mx-auto px-4 space-y-6">
                         {/* Summary Card */}
-                        <div className="bg-slate-900 rounded-[2.5rem] p-8 md:p-12 shadow-2xl relative overflow-hidden border border-slate-800">
+                        <div className="bg-slate-900 rounded-[2.5rem] p-8 md:p-12 shadow-2xl relative overflow-hidden border border-slate-800 group">
                              <div className="absolute top-0 right-0 w-80 h-80 bg-emerald-500/10 rounded-full blur-[100px] -mr-32 -mt-32"></div>
                             <div className="relative z-10 text-center sm:text-left">
                                 <p className="text-xs text-slate-400 uppercase tracking-[0.4em] mb-3 flex items-center justify-center sm:justify-start gap-2">
@@ -319,71 +315,71 @@
                             {isAdmin && (
                                 <div className="space-y-6 order-1">
                                     {/* Borang Transaksi */}
-                                    <section className="bg-white rounded-[2rem] shadow-sm border border-slate-100 p-7">
-                                        <h3 className="text-sm font-bold mb-5 flex items-center gap-2 text-slate-900"><Icon name="plus-circle" className="text-emerald-600" /> Transaksi</h3>
+                                    <section className="bg-white rounded-[2rem] shadow-sm border border-slate-100 p-6 sm:p-7">
+                                        <h3 className="text-sm font-bold mb-5 flex items-center gap-2 text-slate-900"><Icon name="plus-circle" className="text-emerald-600" /> Transaksi Baru</h3>
                                         <form onSubmit={handleSubmit} className="space-y-4">
                                             <div className="flex gap-2 p-1 bg-slate-50 rounded-xl border border-slate-100">
                                                 <button type="button" onClick={()=>setFormData({...formData, type:'masuk'})} className={`flex-1 py-2.5 text-[10px] font-bold rounded-lg transition-all ${formData.type==='masuk'?'bg-white text-emerald-600 shadow-sm':'text-slate-400'}`}>MASUK</button>
                                                 <button type="button" onClick={()=>setFormData({...formData, type:'keluar'})} className={`flex-1 py-2.5 text-[10px] font-bold rounded-lg transition-all ${formData.type==='keluar'?'bg-white text-rose-600 shadow-sm':'text-slate-400'}`}>KELUAR</button>
                                             </div>
-                                            <select required value={formData.name} onChange={(e)=>setFormData({...formData, name:e.target.value})} className="w-full p-4 bg-slate-50 border border-slate-100 rounded-xl text-xs outline-none focus:ring-2 focus:ring-emerald-500/10 transition-all appearance-none">
+                                            <select required value={formData.name} onChange={(e)=>setFormData({...formData, name:e.target.value})} className="w-full p-3.5 bg-slate-50 border border-slate-100 rounded-xl text-xs outline-none focus:ring-2 focus:ring-emerald-500/10 transition-all appearance-none">
                                                 <option value="">-- Pilih Nama --</option>
                                                 {senaraiAhli.map(a => <option key={a} value={a}>{a}</option>)}
                                             </select>
-                                            <div className="grid grid-cols-2 gap-3">
-                                                <select value={formData.month} onChange={(e)=>setFormData({...formData, month:e.target.value})} className="p-4 bg-slate-50 border border-slate-100 rounded-xl text-xs font-semibold outline-none appearance-none">
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                                <select value={formData.month} onChange={(e)=>setFormData({...formData, month:e.target.value})} className="w-full p-3.5 bg-slate-50 border border-slate-100 rounded-xl text-xs font-semibold outline-none appearance-none">
                                                     {senaraiBulan.map(b => <option key={b} value={b}>{b}</option>)}
                                                 </select>
-                                                <input type="number" step="0.01" value={formData.amount} onChange={(e)=>setFormData({...formData, amount:e.target.value})} className="p-4 bg-slate-50 border border-slate-100 rounded-xl text-xs font-bold outline-none" placeholder="RM 0.00" />
+                                                <input type="number" step="0.01" value={formData.amount} onChange={(e)=>setFormData({...formData, amount:e.target.value})} className="w-full p-3.5 bg-slate-50 border border-slate-100 rounded-xl text-xs font-bold outline-none" placeholder="RM 0.00" />
                                             </div>
                                             <button className="w-full py-4 bg-slate-900 text-white rounded-2xl font-bold text-[10px] uppercase shadow-lg shadow-slate-900/20 active:scale-95 transition-all tracking-widest">Sahkan Rekod</button>
                                         </form>
                                     </section>
 
                                     {/* Potongan Pukal */}
-                                    <section className="bg-white rounded-[2rem] shadow-sm border border-slate-100 p-7 border-l-4 border-l-rose-500">
+                                    <section className="bg-white rounded-[2rem] shadow-sm border border-slate-100 p-6 sm:p-7 border-l-4 border-l-rose-500">
                                         <h3 className="text-sm font-bold mb-4 flex items-center gap-2 text-slate-900"><Icon name="pie-chart" className="text-rose-500" /> Potongan Pukal</h3>
-                                        <form onSubmit={handleBulkSubmit} className="space-y-4">
-                                            <input type="number" step="0.01" value={bulkFormData.amount} onChange={(e)=>setBulkFormData({...bulkFormData, amount:e.target.value})} className="w-full p-4 bg-slate-50 border border-slate-100 rounded-xl text-xs font-bold outline-none" placeholder="Total RM Potongan" />
+                                        <form onSubmit={handleBulkSubmit} className="space-y-4 flex flex-col">
+                                            <input type="number" step="0.01" value={bulkFormData.amount} onChange={(e)=>setBulkFormData({...bulkFormData, amount:e.target.value})} className="w-full p-3.5 bg-slate-50 border border-slate-100 rounded-xl text-xs font-bold outline-none" placeholder="Total RM Potongan" />
                                             <button className="w-full py-3.5 bg-rose-600 hover:bg-rose-700 text-white rounded-xl font-bold text-[10px] transition-all active:scale-95 uppercase tracking-wider shadow-lg shadow-rose-600/10">Laksanakan Potongan</button>
                                         </form>
                                     </section>
 
                                     {/* Urus Ahli */}
-                                    <section className="bg-white rounded-[2rem] shadow-sm border border-slate-100 p-7 border-l-4 border-l-amber-400">
+                                    <section className="bg-white rounded-[2rem] shadow-sm border border-slate-100 p-6 sm:p-7 border-l-4 border-l-amber-400">
                                         <h3 className="text-sm font-bold mb-2 flex items-center gap-2 text-slate-900"><Icon name="user-x" className="text-amber-500" /> Urus Ahli</h3>
                                         <p className="text-[10px] text-slate-400 mb-4 italic font-medium">Padam ahli daripada pangkalan data Vault.</p>
-                                        <div className="flex gap-2">
+                                        <div className="flex flex-col sm:flex-row gap-3">
                                             <select 
                                                 value={ahliToDeleteDropdown} 
                                                 onChange={(e)=>setAhliToDeleteDropdown(e.target.value)} 
-                                                className="flex-1 p-4 bg-slate-50 border border-slate-100 rounded-xl text-xs outline-none appearance-none"
+                                                className="w-full sm:flex-1 p-3.5 bg-slate-50 border border-slate-100 rounded-xl text-xs outline-none appearance-none"
                                             >
                                                 <option value="">-- Nama --</option>
                                                 {senaraiAhli.map(a => <option key={a} value={a}>{a}</option>)}
                                             </select>
-                                            <button onClick={() => {if(ahliToDeleteDropdown) { setMemberToDelete(ahliToDeleteDropdown); setAhliToDeleteDropdown(''); }}} className="bg-rose-50 text-rose-600 hover:bg-rose-100 border border-rose-100 px-5 rounded-xl text-[10px] font-bold active:scale-95 transition-all">Padam</button>
+                                            <button onClick={() => {if(ahliToDeleteDropdown) { setMemberToDelete(ahliToDeleteDropdown); setAhliToDeleteDropdown(''); }}} className="w-full sm:w-auto bg-rose-50 text-rose-600 hover:bg-rose-100 border border-rose-100 px-6 py-3.5 rounded-xl text-[10px] font-bold active:scale-95 transition-all">Padam</button>
                                         </div>
                                     </section>
 
                                     {/* Tetapan */}
-                                    <section className="bg-white rounded-[2rem] shadow-sm border border-slate-100 p-7">
+                                    <section className="bg-white rounded-[2rem] shadow-sm border border-slate-100 p-6 sm:p-7">
                                         <h3 className="text-sm font-bold mb-5 flex items-center gap-2 text-slate-900"><Icon name="settings" className="text-slate-400" /> Tetapan Sistem</h3>
                                         <div className="space-y-4">
                                             <div className="flex flex-col gap-1.5">
                                                 <label className="text-[9px] font-bold text-slate-400 uppercase tracking-[0.2em] px-1">Semak Tunggakan Hingga</label>
-                                                <select value={bulanSemasa} onChange={(e)=>setBulanSemasa(e.target.value)} className="w-full p-4 bg-slate-50 border border-slate-100 rounded-xl text-xs font-bold outline-none appearance-none">
+                                                <select value={bulanSemasa} onChange={(e)=>setBulanSemasa(e.target.value)} className="w-full p-3.5 bg-slate-50 border border-slate-100 rounded-xl text-xs font-bold outline-none appearance-none">
                                                     {senaraiBulan.map(b => <option key={b} value={b}>{b}</option>)}
                                                 </select>
                                             </div>
-                                            <div className="grid grid-cols-2 gap-3">
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                                 <div className="flex flex-col gap-1.5">
-                                                     <label className="text-[9px] font-bold text-slate-400 uppercase text-center">Yuran RM</label>
-                                                     <input type="number" value={minAmount} onChange={(e)=>setMinAmount(Number(e.target.value))} className="p-4 bg-slate-50 border border-slate-100 rounded-xl text-xs font-bold text-center outline-none" />
+                                                     <label className="text-[9px] font-bold text-slate-400 uppercase text-center sm:text-left">Yuran RM</label>
+                                                     <input type="number" value={minAmount} onChange={(e)=>setMinAmount(Number(e.target.value))} className="w-full p-3.5 bg-slate-50 border border-slate-100 rounded-xl text-xs font-bold text-center sm:text-left outline-none" />
                                                 </div>
                                                 <div className="flex flex-col gap-1.5">
-                                                     <label className="text-[9px] font-bold text-slate-400 uppercase text-center">Tahun</label>
-                                                     <select value={tahunSemasa} onChange={(e)=>setTahunSemasa(e.target.value)} className="p-4 bg-slate-50 border border-slate-100 rounded-xl text-xs font-bold text-center appearance-none outline-none">
+                                                     <label className="text-[9px] font-bold text-slate-400 uppercase text-center sm:text-left">Tahun</label>
+                                                     <select value={tahunSemasa} onChange={(e)=>setTahunSemasa(e.target.value)} className="w-full p-3.5 bg-slate-50 border border-slate-100 rounded-xl text-xs font-bold text-center sm:text-left appearance-none outline-none">
                                                         {senaraiTahun.map(y => <option key={y} value={y}>{y}</option>)}
                                                      </select>
                                                 </div>
@@ -395,9 +391,9 @@
 
                             <div className={`space-y-6 ${isAdmin ? 'lg:col-span-2' : ''} order-2`}>
                                 {isAdmin && (
-                                    <section className="bg-white rounded-[2rem] shadow-sm border border-slate-100 p-7 overflow-hidden transition-all hover:shadow-md">
+                                    <section className="bg-white rounded-[2rem] shadow-sm border border-slate-100 p-6 sm:p-7 overflow-hidden transition-all hover:shadow-md">
                                         <h3 className="text-sm font-bold mb-5 flex items-center gap-2 text-slate-900"><Icon name="coins" className="text-amber-500" /> Penyata Terperinci</h3>
-                                        <div className="overflow-x-auto no-scrollbar -mx-7 px-7">
+                                        <div className="overflow-x-auto no-scrollbar -mx-6 sm:-mx-7 px-6 sm:px-7">
                                             <table className="w-full text-left min-w-[480px]">
                                                 <thead>
                                                     <tr className="border-b border-slate-100 text-[10px] text-slate-400 font-bold uppercase tracking-widest">
@@ -419,7 +415,7 @@
                                                                     {r.type==='masuk'?'+':'-'} {r.amount.toFixed(2)}
                                                                 </td>
                                                                 <td className="py-4 px-2 text-center">
-                                                                    <button onClick={()=>setRecords(records.filter(x=>x.id!==r.id))} className="text-slate-200 hover:text-rose-500 transition-all p-2 bg-slate-50 hover:bg-rose-50 rounded-xl" title="Padam Rekod"><Icon name="trash-2" className="w-4 h-4" /></button>
+                                                                    <button onClick={()=>setRecords(records.filter(x=>x.id!==r.id))} className="text-rose-400 hover:text-rose-600 transition-all p-2 bg-rose-50 hover:bg-rose-100 rounded-xl" title="Padam Rekod"><Icon name="trash-2" className="w-4 h-4" /></button>
                                                                 </td>
                                                             </tr>
                                                         ))
@@ -430,34 +426,35 @@
                                     </section>
                                 )}
 
-                                <section className="bg-white rounded-[2rem] shadow-sm border border-slate-100 p-7 transition-all hover:shadow-md">
+                                <section className="bg-white rounded-[2rem] shadow-sm border border-slate-100 p-6 sm:p-7 transition-all hover:shadow-md">
                                     <div className="flex justify-between items-center mb-6">
                                         <h3 className="text-sm font-bold flex items-center gap-2 text-slate-900"><Icon name="users" className="text-blue-600" /> Ringkasan Ahli</h3>
                                         <span className="text-[10px] font-bold text-slate-400 uppercase bg-slate-50 px-4 py-1.5 rounded-full border border-slate-100">{senaraiAhli.length} Ahli</span>
                                     </div>
                                     
                                     {isAdmin && (
-                                        <div className="mb-8 p-6 bg-slate-50 rounded-[2.5rem] border border-slate-100 shadow-inner relative overflow-hidden group">
+                                        <div className="mb-8 p-5 sm:p-6 bg-slate-50 rounded-[2.5rem] border border-slate-100 shadow-inner relative overflow-hidden group">
                                             <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/5 rounded-full blur-2xl -mr-10 -mt-10 group-hover:scale-150 transition-transform duration-700"></div>
                                             <div className="flex items-center gap-2 mb-4 px-1 relative z-10">
                                                 <Icon name="user-plus" className="w-4 h-4 text-emerald-600" />
                                                 <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Daftar Ahli Baru</label>
                                             </div>
-                                            <div className="flex flex-col sm:flex-row gap-3 relative z-10">
-                                                <div className="relative flex-1">
+                                            <div className="flex flex-col sm:flex-row gap-3 relative z-10 w-full">
+                                                <div className="relative w-full">
                                                     <Icon name="user" className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-300" />
                                                     <input 
                                                         type="text" 
                                                         placeholder="Contoh: Ali Bin Abu" 
                                                         value={newAhli} 
                                                         onChange={(e)=>setNewAhli(e.target.value)} 
-                                                        className="w-full pl-12 pr-4 py-4 bg-white rounded-2xl text-xs border border-slate-200 outline-none focus:ring-4 focus:ring-emerald-500/5 focus:border-emerald-500 transition-all font-medium" 
+                                                        className="w-full pl-10 pr-4 py-4 bg-white rounded-2xl text-xs border border-slate-200 outline-none focus:ring-4 focus:ring-emerald-500/5 focus:border-emerald-500 transition-all font-medium" 
                                                     />
                                                 </div>
                                                 <button 
                                                     onClick={()=>{if(newAhli){setSenaraiAhli([...senaraiAhli, newAhli]); setNewAhli('')}}} 
-                                                    className="bg-slate-900 hover:bg-slate-800 text-white px-10 py-4 rounded-2xl text-[10px] font-bold shadow-xl shadow-slate-900/20 active:scale-95 transition-all flex items-center justify-center gap-2 uppercase tracking-widest"
+                                                    className="w-full sm:w-auto bg-slate-900 hover:bg-slate-800 text-white px-8 py-4 rounded-2xl text-[10px] font-bold shadow-xl shadow-slate-900/20 active:scale-95 transition-all flex items-center justify-center gap-2 uppercase tracking-widest shrink-0"
                                                 >
+                                                    <Icon name="plus" className="w-3.5 h-3.5" />
                                                     Tambah
                                                 </button>
                                             </div>
@@ -472,9 +469,9 @@
                                     ) : (
                                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                             {Object.values(summary.individu).sort((a,b)=>b.jumlah-a.jumlah).map((a, i) => (
-                                                <div key={i} className="flex justify-between items-center p-5 bg-white hover:bg-slate-50 rounded-[2rem] border border-slate-100 shadow-sm transition-all group relative">
-                                                    <div className="flex items-center gap-4">
-                                                        <div className="w-11 h-11 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs font-bold border-4 border-white shadow-md shrink-0 uppercase tracking-tighter">{a.namaPaparan.substring(0,2)}</div>
+                                                <div key={i} className="flex justify-between items-center p-4 sm:p-5 bg-white hover:bg-slate-50 rounded-[2rem] border border-slate-100 shadow-sm transition-all group relative">
+                                                    <div className="flex items-center gap-3 sm:gap-4">
+                                                        <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs font-bold border-4 border-white shadow-md shrink-0 uppercase tracking-tighter">{a.namaPaparan.substring(0,2)}</div>
                                                         <div className="flex flex-col">
                                                             <span className="font-bold text-[13px] text-slate-800 leading-tight">{a.namaPaparan}</span>
                                                             <div className="flex flex-wrap gap-1 mt-1.5">
@@ -488,13 +485,13 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div className="flex items-center gap-3">
+                                                    <div className="flex items-center gap-2 sm:gap-3 shrink-0">
                                                         <div className="text-right">
-                                                            <span className={`text-[13px] font-black whitespace-nowrap tracking-tight ${a.jumlah>=0?'text-slate-900':'text-rose-600'}`}>{formatRM(a.jumlah)}</span>
+                                                            <span className={`text-[12px] sm:text-[13px] font-black whitespace-nowrap tracking-tight ${a.jumlah>=0?'text-slate-900':'text-rose-600'}`}>{formatRM(a.jumlah)}</span>
                                                         </div>
                                                         {isAdmin && (
-                                                            <button onClick={()=>setMemberToDelete(a.namaPaparan)} className="text-slate-200 hover:text-rose-500 transition-all p-2 bg-slate-50 rounded-xl" title="Padam Ahli">
-                                                                <Icon name="user-minus" className="w-4 h-4" />
+                                                            <button onClick={()=>setMemberToDelete(a.namaPaparan)} className="text-rose-500 bg-rose-50 border border-rose-100 hover:bg-rose-100 transition-all p-2 rounded-xl flex items-center justify-center shrink-0" title="Padam Ahli">
+                                                                <Icon name="trash-2" className="w-4 h-4" />
                                                             </button>
                                                         )}
                                                     </div>
